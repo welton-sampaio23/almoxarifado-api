@@ -1,9 +1,7 @@
 package com.almoxarifado.services;
 
 import com.almoxarifado.domain.employee.Employee;
-import com.almoxarifado.domain.tools.Tool;
 import com.almoxarifado.dtos.EmployeeDto;
-import com.almoxarifado.dtos.ToolDto;
 import com.almoxarifado.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 

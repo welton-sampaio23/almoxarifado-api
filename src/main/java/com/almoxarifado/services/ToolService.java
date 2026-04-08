@@ -33,44 +33,6 @@ public class ToolService {
         return toolRepository.save(tool);
     }
 
-    /*
-    Emprestimo de Ferramenta
-
-recebe nomeFerramenta
-recebe idFuncionario
-
-se nomeFerramenta for nulo ou vazio ou só espaço ou nomeFuncionario for nulo ou vazio ou só espaço:
-	print “Nome da ferramenta ou do funcionário não pode se vazio”
-	parar execução
-fim se
-
-se nomeFerramenta não existe no banco de dados:
-	print “Ferramenta não existe”
-	parar execução
-fim se
-
-ferramenta = buscar ferramenta no banco
-
-se idFuncionario não existe no banco de dados:
-	print “Funcionário não existe”
-	parar execução
-fim se
-
-funcionario = buscar funcionário no banco
-
-se ferramenta.disponivel é verdadeiro
-	ferramenta.responsavel = funcionario
-	ferramenta.disponivel = falso
-	salvar ferramenta no banco
-	print “Ferramenta emprestada com sucesso”
-	parar execução
-se não:
-	print “Ferramenta já está com: “ + ferramenta.responsavel.nome
-	parar execução
-fim se
-
-     */
-
     public Tool loanTool(LoanToolDto dto) {
         String nameTool = dto.nameTool();
         if (nameTool == null || nameTool.trim().isEmpty() || dto.idEmployee() == null) {
