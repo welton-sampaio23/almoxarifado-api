@@ -23,6 +23,6 @@ public interface ToolRepository extends JpaRepository<Tool, UUID> {
     List<Tool> findByAvailableFalse();
 
     // Buscar por responsável
-    List<Tool> findByResponsible(Employee responsible);
+    List<Tool> findByResponsibleAndAvailableFalse(Employee responsible);
 
 }

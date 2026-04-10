@@ -9,6 +9,7 @@ import com.almoxarifado.repositories.EmployeeRepository;
 import com.almoxarifado.repositories.ToolRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -83,5 +84,18 @@ public class ToolService {
 
     public List<Tool> listAvailableTools() {
         return toolRepository.findByAvailableTrue();
+    }
+
+    public List<Tool> listBorrowedTools() {
+        return toolRepository.findByAvailableFalse();
+    }
+
+    public List<Tool> listBorrowedResponsible(UUID idResponsible) {
+        if (idResponsible == null) {
+            throw new IllegalArgumentException("O id do funcionário não pode ser vazio");
+        }
+        Employee employee = employeeRepository.findById(idResponsible).orElseThrow(() -> new IllegalArgumentException("Funcionário não existe"));
+        return toolRepository.findByResponsibleAndAvailableFalse(employee);
+
     }
 }

@@ -5,6 +5,8 @@ import com.almoxarifado.dtos.EmployeeDto;
 import com.almoxarifado.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
@@ -26,6 +28,10 @@ public class EmployeeService {
 
         Employee newEmployee = new Employee(name, profession);
         return employeeRepository.save(newEmployee);
+    }
+
+    public List<Employee> listEmployees() {
+        return employeeRepository.findAll();
     }
 
 }
