@@ -56,35 +56,6 @@ public class ToolService {
         return toolRepository.save(tool);
     }
 
-    /*
-    Devolução de Ferramenta
-
-recebe nomeFerramenta
-
-se nomeFerramenta for nulo ou vazio ou só espaço:
-	print “Nome não pode está vazio”
-	parar execução
-fim se
-
-see nomeFerramenta não existe no banco de dados:
-	print “Ferramenta não existe”
-	parar execução
-fim se
-
-ferramenta = buscar ferramenta no banco
-
-se ferramenta.disponivel é verdadeiro:
-	print “Ferramenta já devolvida”
-	parar execução
-se não:
-	ferramenta.responsavel = nulo
-	ferramenta.disponivel = verdadeiro
-	salvar ferramenta no banco
-	print “Devolução bem sucedida”
-	parar execução
-fim se
-     */
-
     public Tool toolReturn(ToolReturnDto dto) {
         String nameTool = dto.nameTool();
         UUID idEmployee = dto.idEmployee();
