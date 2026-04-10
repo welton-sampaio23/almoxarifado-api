@@ -4,9 +4,13 @@ import com.almoxarifado.domain.employee.Employee;
 import com.almoxarifado.domain.tools.Tool;
 import com.almoxarifado.dtos.LoanToolDto;
 import com.almoxarifado.dtos.ToolDto;
+import com.almoxarifado.dtos.ToolReturnDto;
 import com.almoxarifado.repositories.EmployeeRepository;
 import com.almoxarifado.repositories.ToolRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ToolService {
@@ -50,5 +54,63 @@ public class ToolService {
             throw new IllegalArgumentException("Ferramenta já está com: " + tool.getResponsible().getNameEmployee());
         }
         return toolRepository.save(tool);
+    }
+
+    /*
+    Devolução de Ferramenta
+
+recebe nomeFerramenta
+
+se nomeFerramenta for nulo ou vazio ou só espaço:
+	print “Nome não pode está vazio”
+	parar execução
+fim se
+
+see nomeFerramenta não existe no banco de dados:
+	print “Ferramenta não existe”
+	parar execução
+fim se
+
+ferramenta = buscar ferramenta no banco
+
+se ferramenta.disponivel é verdadeiro:
+	print “Ferramenta já devolvida”
+	parar execução
+se não:
+	ferramenta.responsavel = nulo
+	ferramenta.disponivel = verdadeiro
+	salvar ferramenta no banco
+	print “Devolução bem sucedida”
+	parar execução
+fim se
+     */
+
+    public Tool toolReturn(ToolReturnDto dto) {
+        String nameTool = dto.nameTool();
+        UUID idEmployee = dto.idEmployee();
+        if (nameTool == null || nameTool.trim().isEmpty() || idEmployee == null) {
+            throw new IllegalArgumentException("Nome da ferramenta ou id do funcionário não pode ser vazio");
+        }
+
+        Employee employee = employeeRepository.findById(idEmployee).orElseThrow(() -> new IllegalArgumentException("Funcionário não existe"));
+
+        nameTool = nameTool.trim().toLowerCase();
+        Tool tool = toolRepository.findByNameTool(nameTool).orElseThrow(() -> new IllegalArgumentException("Ferramenta não existe no banco de dados"));
+
+        if (tool.isAvailable()) {
+            throw new IllegalArgumentException("Ferramenta já devolvida");
+        }
+
+        if (tool.getResponsible() == null || !tool.getResponsible().getIdEmployee().equals(employee.getIdEmployee())) {
+            throw new IllegalArgumentException("Essa ferramenta não está com esse funcionário");
+        }
+
+        tool.setResponsible(null);
+        tool.setAvailable(true);
+        return toolRepository.save(tool);
+    }
+
+    public List<Tool> listAvailableTools() {
+        return toolRepository.findByAvailableTrue();
     }
 }

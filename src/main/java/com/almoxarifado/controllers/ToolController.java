@@ -3,11 +3,14 @@ package com.almoxarifado.controllers;
 import com.almoxarifado.domain.tools.Tool;
 import com.almoxarifado.dtos.LoanToolDto;
 import com.almoxarifado.dtos.ToolDto;
+import com.almoxarifado.dtos.ToolReturnDto;
 import com.almoxarifado.services.ToolService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/tools")
@@ -28,5 +31,17 @@ public class ToolController {
     public ResponseEntity<Tool> loanTool(@Valid @RequestBody LoanToolDto dto) {
         Tool loanTool = toolService.loanTool(dto);
         return ResponseEntity.status(HttpStatus.OK).body(loanTool);
+    }
+
+    @PutMapping("/devolucoes")
+    public ResponseEntity<Tool> toolReturn(@Valid @RequestBody ToolReturnDto dto) {
+        Tool tool = toolService.toolReturn(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(tool);
+    }
+
+    @GetMapping("/disponivel")
+    public ResponseEntity<List<Tool>> listAvailableTools() {
+        List<Tool> listAvailableTools = toolService.listAvailableTools();
+        return ResponseEntity.ok(listAvailableTools);
     }
 }
